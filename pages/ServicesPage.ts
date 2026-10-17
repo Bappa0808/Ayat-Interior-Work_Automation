@@ -15,6 +15,17 @@ export class ServicesPage extends BasePage{
      readonly aaddToCartButtonAdded:Locator;
      readonly estimatedCart:Locator;
      readonly estimatedTotalPrice:Locator;
+     readonly estimatedCartQuote:Locator;
+     readonly estimatedCartQuoteName:Locator;
+     readonly estimatedCartQuotePhone:Locator;
+     readonly estimatedCartQuoteEmail:Locator;
+     readonly estimatedCartQuoteCity:Locator;
+     readonly estimatedCartQuoteProjectType:Locator;
+     readonly estimatedCartQuoteSpecialRequirements:Locator;
+     readonly estimatedCartQuoteSubmitButton:Locator;
+     readonly estimatedCartQuoteSubmitSuccess:Locator;
+
+
 
 
       constructor(page: Page) {
@@ -30,6 +41,15 @@ export class ServicesPage extends BasePage{
         this.aaddToCartButtonAdded=page.getByRole('button', { name: 'Added' });
         this.estimatedCart =page.locator('span:has-text("Estimate Cart")')
         this.estimatedTotalPrice = page.locator('p.text-2xl.font-bold.text-gold-600:visible');
+        this.estimatedCartQuote = page.locator('button').filter({ hasText: 'Get a Quote' }).last()
+        this.estimatedCartQuoteName =page.getByRole('textbox', { name: 'Your full name' })
+        this.estimatedCartQuotePhone = page.getByRole('textbox', { name: '+91 9876543210' })
+        this.estimatedCartQuoteEmail = page.getByRole('textbox', { name: 'your.email@example.com' })
+        this.estimatedCartQuoteCity = page.getByRole('textbox', { name: 'e.g. Raigarh, Chhattisgarh' })
+        this.estimatedCartQuoteProjectType = this.estimatedCartQuoteProjectType = page.locator('select[name="projectType"]');
+        this.estimatedCartQuoteSpecialRequirements =page.getByRole('textbox', { name: /Any specific preference, layout details, or target completion date\.\.\./i })
+        this.estimatedCartQuoteSubmitButton = page.getByRole('button', { name: 'Submit' });
+        this.estimatedCartQuoteSubmitSuccess = page.getByRole('heading', { name: 'Quote Request Received!' })
 
     }
      async open() {
@@ -50,4 +70,34 @@ export class ServicesPage extends BasePage{
     async clickEstimatedCart() {
         await this.estimatedCart.click();
     }
+    async clickEstimatedCartQuote() {
+        await this.estimatedCartQuote.click();
+    }
+
+    async estimatedCartQuoteNameEntry(estimateQuoteName: string) {
+        await this.estimatedCartQuoteName.fill(estimateQuoteName);
+    }
+
+    async estimatedCartQuotePhoneEntry(estimateQuotePhone: string) {
+        await this.estimatedCartQuotePhone.fill(estimateQuotePhone);
+    }
+    async estimatedCartQuoteEmailEntry(estimateQuoteEmail: string) {
+        await this.estimatedCartQuoteEmail.fill(estimateQuoteEmail);
+    }   
+    async estimatedCartQuoteCityEntry(estimateQuoteCity: string) {
+        await this.estimatedCartQuoteCity.fill(estimateQuoteCity);
+    }
+    async selectEstimatedCartQuoteProjectType(projectType: string) {
+    await this.estimatedCartQuoteProjectType.selectOption({
+        label: projectType
+    });
+}
+async enterEstimatedCartQuoteSpecialRequirements(requirements: string) {
+    await this.estimatedCartQuoteSpecialRequirements.fill(requirements);
+}
+
+async clickEstimatedCartQuoteSubmit() {
+    await this.estimatedCartQuoteSubmitButton.click();
+}
+    
 }

@@ -30,4 +30,23 @@ test.describe('Services page',()=>{
             await servicesPage.clickEstimatedCart();
             await expect(servicesPage.estimatedTotalPrice).toBeVisible();
         });
-});
+        test('verify estimated cart quote functionality',async({page})=>{
+            const servicesPage = new ServicesPage(page);
+            await servicesPage.open();
+            await servicesPage.clickAddToCart();
+            await servicesPage.enterSqft("100");
+            await servicesPage.clickAddToCartPopUp();
+            await expect(servicesPage.aaddToCartButtonAdded).toBeVisible();
+            await servicesPage.clickEstimatedCart();
+            await servicesPage.clickEstimatedCartQuote();
+            await servicesPage.estimatedCartQuoteNameEntry("test quote user");
+            await servicesPage.estimatedCartQuotePhoneEntry("+91 9876543210");
+            await servicesPage.estimatedCartQuoteEmailEntry("test.quote.user@example.com");
+            await servicesPage.estimatedCartQuoteCityEntry("Raigarh, Chhattisgarh");
+            await servicesPage.selectEstimatedCartQuoteProjectType("2 BHK Apartment");
+            await servicesPage.enterEstimatedCartQuoteSpecialRequirements("Special requirements for the project");
+            await servicesPage.clickEstimatedCartQuoteSubmit();
+            await expect(servicesPage.estimatedCartQuoteSubmitButton).toBeVisible();
+            await expect(servicesPage.estimatedCartQuoteSubmitSuccess).toContainText('Quote Request Received!');
+        });
+    });
